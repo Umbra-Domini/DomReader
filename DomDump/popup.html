@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --bg:#002b36; --panel:#073642; --fg:#eee8d5; --dim:#93a1a1; --acc:#2aa198; --rec:#dc322f; }
+  * { box-sizing: border-box; }
+  body { margin:0; width:300px; padding:12px; background:var(--bg); color:var(--fg); font:13px system-ui, sans-serif; }
+  h1 { font-size:14px; margin:0 0 8px; display:flex; align-items:center; gap:8px; }
+  .dot { width:10px; height:10px; border-radius:50%; background:#586e75; }
+  .dot.on { background:var(--rec); animation:p 1.2s infinite; }
+  @keyframes p { 50% { opacity:.35; } }
+  .stats { color:var(--dim); margin-bottom:10px; }
+  .row { display:flex; gap:6px; margin-bottom:6px; }
+  button { flex:1; padding:7px; border:0; border-radius:6px; background:var(--panel); color:var(--fg); cursor:pointer; font:inherit; }
+  button:hover { background:#0a4553; }
+  button.primary { background:var(--acc); color:#002b36; font-weight:600; }
+  button.stop { background:var(--rec); color:#fff; font-weight:600; }
+  button.danger { color:#ff8a80; }
+  select { width:100%; padding:6px; margin-bottom:8px; background:var(--panel); color:var(--fg); border:0; border-radius:6px; font:inherit; }
+  label { display:flex; gap:6px; align-items:center; padding:2px 0; color:var(--dim); }
+  fieldset { border:1px solid var(--panel); border-radius:6px; margin:8px 0; padding:6px 8px; }
+  legend { color:var(--dim); font-size:11px; padding:0 4px; }
+</style>
+</head>
+<body>
+  <h1><span class="dot" id="dot"></span><span id="title">DOM Recorder</span></h1>
+  <div class="stats" id="stats">…</div>
+  <select id="scope"></select>
+  <div class="row"><button id="toggle" class="primary">Start recording</button></div>
+  <div class="row">
+    <button id="snap">Snapshot now</button>
+    <button id="view">View / Export</button>
+  </div>
+  <fieldset>
+    <legend>Options</legend>
+    <label><input type="checkbox" data-opt="recordEvents"> Log clicks, inputs, keys, drag/drop</label>
+    <label><input type="checkbox" data-opt="captureStateChanges"> Snapshot on class/attribute changes</label>
+    <label><input type="checkbox" data-opt="includeShadow"> Include shadow DOM</label>
+    <label><input type="checkbox" data-opt="stripScripts"> Strip script/style contents</label>
+    <label><input type="checkbox" data-opt="stripSvg"> Strip inline SVG bodies</label>
+    <label><input type="checkbox" data-opt="includeVisibleText"> Save visible text</label>
+  </fieldset>
+  <div class="row"><button id="clear" class="danger">Clear all recorded data</button></div>
+  <div class="stats" style="font-size:11px">Alt+Shift+S snapshot · Alt+Shift+R start/stop</div>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "DOM Recorder",
+  "version": "2.0",
+  "description": "Record a site's DOM while you browse it: snapshots on every page/state change, interaction log, and question-type detection. Export as ZIP or JSON.",
+  "permissions": ["storage", "unlimitedStorage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "DOM Recorder",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "snapshot-now": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Take a snapshot of the current tab now"
+    },
+    "toggle-recording": {
+      "suggested_key": { "default": "Alt+Shift+R" },
+      "description": "Start / stop recording on the current site"
+    }
+  }
+}

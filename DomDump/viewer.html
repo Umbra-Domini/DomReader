@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DOM Recorder — Viewer</title>
+<style>
+  :root { --bg:#002b36; --panel:#073642; --fg:#eee8d5; --dim:#93a1a1; --acc:#2aa198; --warn:#b58900; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:13px system-ui, sans-serif; }
+  header { display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:12px 16px; background:var(--panel); position:sticky; top:0; z-index:2; }
+  header h1 { font-size:15px; margin:0 12px 0 0; }
+  button, input { background:#0a4553; color:var(--fg); border:0; border-radius:6px; padding:7px 12px; font:inherit; cursor:pointer; }
+  button.primary { background:var(--acc); color:#002b36; font-weight:600; }
+  button.danger { color:#ff8a80; }
+  input[type=search] { cursor:text; min-width:220px; }
+  main { display:grid; grid-template-columns: minmax(420px, 1.1fr) 1fr; gap:14px; padding:14px 16px; }
+  section { background:var(--panel); border-radius:8px; padding:10px 12px; min-width:0; }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); margin:0 0 8px; }
+  table { width:100%; border-collapse:collapse; }
+  th, td { text-align:left; padding:5px 6px; border-bottom:1px solid #0a4553; vertical-align:top; }
+  tr.row { cursor:pointer; } tr.row:hover { background:#0a4553; } tr.sel { background:#0d5565; }
+  td.url { max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .tag { display:inline-block; background:#0a4553; border-radius:10px; padding:1px 8px; margin:1px 2px 1px 0; font-size:11px; }
+  .tag.t { background:var(--acc); color:#002b36; }
+  .dim { color:var(--dim); }
+  pre { background:#00212b; padding:8px; border-radius:6px; overflow:auto; max-height:420px; font:12px ui-monospace, monospace; white-space:pre-wrap; word-break:break-word; }
+  .q { border-left:3px solid var(--acc); padding:4px 8px; margin:6px 0; background:#00212b; border-radius:0 6px 6px 0; }
+  .q ul { margin:4px 0 0; padding-left:18px; }
+  .tabs { display:flex; gap:6px; margin-bottom:8px; }
+  .tabs button.on { background:var(--acc); color:#002b36; }
+  @media (max-width: 1000px) { main { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>DOM Recorder</h1>
+  <span id="stats" class="dim"></span>
+  <span style="flex:1"></span>
+  <input type="search" id="filter" placeholder="Filter by URL / title…">
+  <button id="expZip" class="primary">Export ZIP</button>
+  <button id="expJson">Export JSON</button>
+  <button id="delSel" class="danger">Delete selected</button>
+  <button id="refresh">Refresh</button>
+</header>
+<main>
+  <section>
+    <h2>Snapshots</h2>
+    <table>
+      <thead><tr><th>#</th><th>Time</th><th>URL</th><th>Why</th><th>Q</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+  <div style="display:grid; gap:14px; align-content:start">
+    <section>
+      <h2>Question types found (unique)</h2>
+      <div id="typeSummary"></div>
+    </section>
+    <section>
+      <h2 id="detailTitle">Snapshot detail</h2>
+      <div class="tabs">
+        <button data-tab="questions" class="on">Questions</button>
+        <button data-tab="elements">Elements</button>
+        <button data-tab="text">Visible text</button>
+        <button data-tab="html">HTML</button>
+        <button data-tab="events">Events</button>
+      </div>
+      <div id="detail" class="dim">Select a snapshot.</div>
+    </section>
+  </div>
+</main>
+<script src="viewer.js" type="module"></script>
+</body>
+</html>
